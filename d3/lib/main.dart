@@ -22,6 +22,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController AnswerController = TextEditingController();
+  TextEditingController v = TextEditingController();
+
   List<QuisItem> Quis = [
     QuisItem(1, ['snack', 'programming', 'UI', 'language'], "What is python"),
     QuisItem(2, ['low level', 'high level programming', 'UI', 'language'],
@@ -31,7 +34,20 @@ class _HomeState extends State<Home> {
     QuisItem(2, ['low level', 'high level programming', 'UI', 'language'],
         "What is java"),
   ];
+
   int Score = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    AnswerController.addListener(() {
+      setState(() {});
+    });
+    v.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,18 +64,22 @@ class _HomeState extends State<Home> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(ele.Question),
-                    for (var j in ele.options)
-                      ElevatedButton(
-                          onPressed: () {
-                            print("${ele.options.indexOf(j)}");
-                            if (ele.options.indexOf(j) == ele.CorrectOption) {
-                              Score++;
-                            } else {
-                              Score--;
-                            }
-                            setState(() {});
-                          },
-                          child: Text(j))
+                    TextField(
+                      controller: AnswerController,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (AnswerController.text ==
+                            ele.options[ele.CorrectOption]) {
+                          Score++;
+                        } else {
+                          Score--;
+                        }
+                        setState(() {});
+                      },
+                      child: Text("Submit"),
+                    ),
+                    if (Score > 1) Text("Possitive")
                   ],
                 )
             ],
